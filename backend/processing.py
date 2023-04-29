@@ -28,11 +28,17 @@ def store_text(pdf_reader):
     db = FAISS.from_texts(chunks, embeddings)
     chain = load_qa_chain(OpenAI(), chain_type="stuff")
 
-    with open('db.pickle', 'wb') as f:
-        pickle.dump(db, f)
+    db_serialized = pickle.dumps(db)
+    chain_serialized = pickle.dumps(chain)
 
-    with open('chain.pickle', 'wb') as f:
-        pickle.dump(chain, f)
+    cur.execute('INSERT INTO Chats (?, ?)', (db_serialized, chain_serialized))
+
+    
+    # with open('db.pickle', 'wb') as f:
+    #     pickle.dump(db, f)
+
+    # with open('chain.pickle', 'wb') as f:
+    #     pickle.dump(chain, f)
     
     print('done storing text')
 
