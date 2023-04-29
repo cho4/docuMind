@@ -1,68 +1,71 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function DragAndDrop({ callback }) {
-  const [isDragOver, setIsDragOver] = useState(false);
+const FileDropZone = ({ callback }) => {
+  const [isDragging, setIsDragging] = useState(false);
 
-  const handleDragOver = (event) => {
-    event.preventDefault();
-    setIsDragOver(true);
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
   };
 
-  const handleDragLeave = (event) => {
-    event.preventDefault();
-    setIsDragOver(false);
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
   };
 
-  const handleDrop = (event) => {
-    event.preventDefault();
-    setIsDragOver(false);
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    setIsDragging(false);
 
-    const file = event.dataTransfer.files[0];
-    if (file.type === 'application/pdf') {
+    const file = e.dataTransfer.files[0];
+
+    if (file.type !== 'application/pdf') {
+      alert('Only PDF files are allowed');
+      return;
+    }
+
+    try {
       const formData = new FormData();
-      formData.append('pdf', file);
+      formData.append('file', file);
 
-      axios.post('/upload_pdf', formData)
-        .then(response => {
-          if (response.data.success) {
-            callback(true);
-          } else {
-            alert('Upload failed. Please try again later.');
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          alert('An error occurred while uploading the PDF. Please try again later.');
-        });
-    } else {
-      alert('Please upload a PDF file.');
+      const response = await axios.post('/upload_pdf', formData);
+
+      if (response.data.success) {
+        callback();
+      } else {
+        alert('File upload failed');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('File upload failed');
     }
   };
 
   return (
     <div
       style={{
+        border: '3px solid white',
+        borderRadius: '10px',
+        margin: '30px',
+        height: '300px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
-        height: '100%',
-        backgroundColor: isDragOver ? '#f0f0f0' : '#ffffff',
-        border: '1px solid #d0d0d0',
-        borderRadius: '4px',
-        color: '#ffffff',
-        fontSize: '16px',
+        backgroundColor: isDragging ? '#c3c3c3' : 'grey',
+        color: 'white',
+        fontSize: '20px',
         fontWeight: 'bold',
-        cursor: 'pointer'
+        textAlign: 'center',
+        transition: 'background-color 0.2s ease-in-out',
       }}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-      Drag &amp; Drop a PDF file to start chatting.
+      Drag & Drop a PDF file to start chatting.
     </div>
   );
-}
+};
 
-export default DragAndDrop;
+export default FileDropZone;

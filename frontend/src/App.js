@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 
 import React from 'react';
 import ChatContent from './components/ChatContent.js';
-import DragAndDrop from './Upload_File.js';
+import FileDropZone from './Upload_File.js';
 
 function App() {
   const [uploaded, setUploaded] = useState(false);
@@ -20,11 +20,11 @@ function App() {
           </h1>
         </div>
         <div style={{ flex: 3, backgroundColor: 'white', overflowY: 'scroll' }}>
-          <ChatHistoryList callback={setCurrentChat}/>
+          <ChatHistoryList callback={(p1, s1, p2, s2) => {setUploaded(p1); setHistoryMsg(p2)}}/>
         </div>
       </div>
       <div style={{ flex: 4, backgroundColor: 'lightblue' }}>
-        {!uploaded ? <DragAndDrop callback={setUploaded} /> : <ChatContent callback={setHistoryMsg} />}
+        {!uploaded ? <FileDropZone callback={setUploaded} /> : <ChatContent prop1={historyMsg} callback={setHistoryMsg} />}
       </div>
     </div>
   );
