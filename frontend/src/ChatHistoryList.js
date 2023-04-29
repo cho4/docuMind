@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import EachChat from './components/EachChat';
+import './index.css';
 
 function ChatHistoryList(props) {
 
@@ -11,14 +12,14 @@ function ChatHistoryList(props) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: 'lightgray' }}>
-  <div style={{ flex: 1, overflowY: 'scroll', maxHeight: 'calc(100% - 51.09623336791992px)' }}>
-    {chatList}
-  </div>
-  <div style={{ height: 51.09623336791992, width: 172, left: 86, top: 888, borderRadius: 10, backgroundColor: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-    <button onClick={addNewChat}>New Chat</button>
-  </div>
-</div>
-
+      <div style={{ flex: 1, overflowY: 'scroll', maxHeight: 'calc(100% - 51.09623336791992px)' }}>
+        {chatList}
+      </div>
+      <button onClick={addNewChat} style={{backgroundColor: '#5CC2C2', 'border-radius': '25px', 'border-width': 0, height: 51.09623336791992, width: 172, left: 86, top: 888, borderRadius: 10, display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white', margin: '0 auto', marginTop: '30px', marginBottom: '30px', 'font-family': 'Euclid Circular A','font-size': '18px', 'font-weight': '500','line-height': '23px','letter-spacing': '0em', 'text-align': 'center'}}>
+          <div className='circle'></div>
+          New Chat
+      </button>
+    </div>
   );
 }
 

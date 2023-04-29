@@ -18,11 +18,11 @@ function App() {
             <span style={{ color: 'lightblue', fontWeight: 'bold' }}>PDF</span>riend
           </h1>
         </div>
-        <div style={{ flex: 2, backgroundColor: 'white', overflowY: 'scroll' }}>
+        <div style={{ flex: 3, backgroundColor: 'white', overflowY: 'scroll' }}>
           <ChatHistoryList callback={setCurrentChat}/>
         </div>
       </div>
-      <div style={{ flex: 2, backgroundColor: 'lightblue' }}>
+      <div style={{ flex: 4, backgroundColor: 'lightblue' }}>
         {currentChat && <ChatContent />}
       </div>
     </div>
