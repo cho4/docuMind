@@ -11,7 +11,7 @@ function ChatHistoryList(props) {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: 'lightgray' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: '#E6E6E6' }}>
       <div style={{ flex: 1, overflowY: 'scroll', maxHeight: 'calc(100% - 51.09623336791992px)' }}>
         {chatList}
       </div>

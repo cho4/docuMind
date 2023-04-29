@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Message from './Message';
+import MessageForm from './MessageForm';
 
 function ChatContent() {
     const [message, setMessage] = useState('');
@@ -34,14 +35,11 @@ function ChatContent() {
               <Message text={"Sounds good. See you then!"} type={"sender"} />
             </div>
           </div>
+
+        <MessageForm />
+
         </div>
-        <div style={{ flex: '0 0 80px', backgroundColor: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 20px' }}>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}>
-  <input type="text" value={message} onChange={handleChange} placeholder="Type your message here" style={{ width: '100%', padding: 10, marginRight: 10 }} />
-  <button type="submit" style={{ padding: '10px 20px', backgroundColor: 'lightblue', color: 'white', border: 'none', borderRadius: 5, cursor: 'pointer', position: 'absolute', right: 20 }}>Send</button>
-</form>
-          <button style={{ marginLeft: 10, padding: 10, backgroundColor: 'white', color: 'lightblue', border: 'none', borderRadius: 5, cursor: 'pointer' }}>Button</button>
-        </div>
+
       </div>
     );
 }
