@@ -36,11 +36,12 @@ def validate_user(username, password):
 
 # Runs query through the similarity search and question answering chain
 def get_reply(query, conversation, username):
-    # with open('db.pickle', 'rb') as f:
-    #     db = pickle.load(f)
-
-    # with open('chain.pickle', 'rb') as f:
-    #     chain = pickle.load(f)
+    conn = sqlite3.connect("pagetalk.db")
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM Chats WHERE username=? AND conversation=?', (username, conversation))
+    results = cur.fetchone()
+    chain = pickle.loads(results[2])
+    db = pickle.loads(results[3])
 
     docs = db.similarity_search(query)
     return chain.run(input_documents=docs, question=query)

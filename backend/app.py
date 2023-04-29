@@ -72,8 +72,9 @@ def upload_pdf():
 @app.route('/chat/', methods=['POST'])
 def chat():
     try:
-        data = request.json['message']
-        response = get_reply(data)
+        query = request.json['message']
+        title = request.json['title']
+        response = get_reply(query, title, session['name'])
         return {'success': True, 'response': response}
     except:
         return {'success': False, 'response': None}
