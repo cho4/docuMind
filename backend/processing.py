@@ -4,10 +4,17 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
 from langchain.text_splitter import CharacterTextSplitter
 
+import pickle
 
 
 
 def get_reply(query):
+    with open('db.pickle', 'rb') as f:
+        db = pickle.load(f)
+
+    with open('chain.pickle', 'rb') as f:
+        chain = pickle.load(f)
+
     docs = db.similarity_search(query)
     return chain.run(input_documents=docs, question=query)
 
@@ -18,9 +25,15 @@ def store_text(pdf_reader):
     chunks = chunk_text(text) # Separates the text into chunks 
 
     embeddings = OpenAIEmbeddings()
-    db = FAISS.from_documents(texts, embeddings)
+    db = FAISS.from_documents(text, embeddings)
     chain = load_qa_chain(OpenAI(), chain_type="stuff")
-    return chain
+
+    with open('db.pickle', 'wb') as f:
+        pickle.dump(db, f)
+
+    with open('chain.pickle', 'wb') as f:
+        pickle.dump(chain, f)
+
 
 
 def chunk_text(text):

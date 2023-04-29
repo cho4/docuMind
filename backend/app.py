@@ -12,7 +12,7 @@ def upload_pdf():
         file = request.files['file']
         pdf_reader = PyPDF2.PdfFileReader(io.BytesIO(file))
 
-        chain = store_text(pdf_reader)
+        store_text(pdf_reader)
         
         return {'status': 'success'}
      
