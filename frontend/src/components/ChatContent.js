@@ -7,12 +7,12 @@ function ChatContent() {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      axios.post('/chat', {"messgae": e.target[0]}).then(
+      axios.post('/chat', {"message": e.target[0]}).then(
         (res) => {
           if (res.data.success == true) {
             setMessage(res.data);
           } else {
-            console.error(error);
+            console.error('');
           }
         },
         (error) => {console.error(error);}
