@@ -11,13 +11,14 @@ function ChatHistoryList(props) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: 'lightgray' }}>
-      <div style={{ flex: 1, overflowY: 'scroll' }}>
-        {chatList}
-      </div>
-      <div style={{ height: 51.09623336791992, width: 172, left: 86, top: 888, borderRadius: 10, backgroundColor: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <button onClick={addNewChat}>New Chat</button>
-      </div>
-    </div>
+  <div style={{ flex: 1, overflowY: 'scroll', maxHeight: 'calc(100% - 51.09623336791992px)' }}>
+    {chatList}
+  </div>
+  <div style={{ height: 51.09623336791992, width: 172, left: 86, top: 888, borderRadius: 10, backgroundColor: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+    <button onClick={addNewChat}>New Chat</button>
+  </div>
+</div>
+
   );
 }
 
