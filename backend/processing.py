@@ -44,7 +44,13 @@ def get_reply(query, conversation, username):
     db = pickle.loads(results[3])
 
     docs = db.similarity_search(query)
-    return chain.run(input_documents=docs, question=query)
+    reply = chain.run(input_documents=docs, question=query)
+    timestamp =  int(datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
+    cur.execute('INSERT INTO Messages VALUES (?, ?, ?, ?, ?)', (timestamp, query, conversation, username, "user"))
+    cur.execute('INSERT INTO Messages VALUES (?, ?, ?, ?, ?)', (timestamp+1, reply, conversation, username, "bot"))
+    conn.commit()
+    conn.close()
+    return reply
 
 # Stores text, and all relevant information in the database
 def store_text(pdf_reader, title, username):
