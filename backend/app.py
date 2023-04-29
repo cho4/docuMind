@@ -6,13 +6,16 @@ import openai
 import os
 import sqlite3
 from datetime import datetime
-from flask_session import Session
+from flask_cors import CORS
 
 # Create the application instance and configures session
 app = Flask(__name__)
+CORS(app)
+app.secret_key = os.urandom(24)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+app.config["SESSION"]
+app.config["SESSION_COOKIE_NAME"] = "pagetalk"
 
 # Validates the OpenAI API key
 @app.route('/key/', methods=['POST'])
@@ -58,8 +61,8 @@ def upload_pdf():
     try:
         file = request.files['file']
         pdf_reader = PyPDF2.PdfReader(io.BytesIO(file))
-
-        store_text(pdf_reader)
+        
+        store_text(pdf_reader, file.filename, session['name']) # passes PDF, file name which is part of request object, and username
         return {'success': True}
     except:
         return {'success': False}

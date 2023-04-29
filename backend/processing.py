@@ -8,6 +8,7 @@ import datetime
 import pickle
 import os
 
+# Validates user signup, checks existing usernames
 def signup_user(username, password):
     conn = sqlite3.connect("pagetalk.db")
     cur = conn.cursor()
@@ -15,19 +16,25 @@ def signup_user(username, password):
     if cur.fetchone() is None:
         cur.execute('INSERT INTO Users VALUES (?, ?)', (username, password))
         conn.commit()
+        conn.close()
         return True
     else:
+        conn.close()
         return False
 
+# Validates user login, checks match between username and password
 def validate_user(username, password):
     conn = sqlite3.connect("pagetalk.db")
     cur = conn.cursor()
     cur.execute('SELECT * FROM Users WHERE username=? AND password=?', (username, password))
     if cur.fetchone() is None:
+        conn.close()
         return False
     else:
+        conn.close()
         return True
 
+# Runs query through the similarity search and question answering chain
 def get_reply(query):
     with open('db.pickle', 'rb') as f:
         db = pickle.load(f)
@@ -38,8 +45,8 @@ def get_reply(query):
     docs = db.similarity_search(query)
     return chain.run(input_documents=docs, question=query)
 
-def store_text(pdf_reader):
-
+# Stores text, and all relevant information in the database
+def store_text(pdf_reader, title, username):
     text = get_text(pdf_reader) # Retrieves the raw text from the pdf
     chunks = chunk_text(text) # Separates the text into chunks 
 
@@ -50,22 +57,15 @@ def store_text(pdf_reader):
     db_serialized = pickle.dumps(db)
     chain_serialized = pickle.dumps(chain)
 
-    # FIGURE THIS OUT
-
     conn = sqlite3.connect("pagetalk.db")
     cur = conn.cursor()
-    cur.execute('INSERT INTO Chats (?, ?, ?, ?)', (db_serialized, chain_serialized))
-
-    
-    # with open('db.pickle', 'wb') as f:
-    #     pickle.dump(db, f)
-
-    # with open('chain.pickle', 'wb') as f:
-    #     pickle.dump(chain, f)
+    cur.execute('INSERT INTO Chats (?, ?, ?, ?)', (title, username, db_serialized, chain_serialized))
+    conn.commit()
+    conn.close()
     
     print('done storing text')
 
-
+# Separates text into chunks for token limit
 def chunk_text(text):
     text_splitter = CharacterTextSplitter(
         separator = '\n',
@@ -78,9 +78,10 @@ def chunk_text(text):
     print('done chunking text')
     return chunks
 
+# Retrieves raw text from pdf
 def get_text(pdf_reader):
     raw_text = ''
-    for i, page in enumerate(pdf_reader.pages):
+    for page in pdf_reader.pages:
         text = page.extract_text()
         if text:
             raw_text += text
