@@ -1,14 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
-import ChatHistoryList from './ChatHistoryList';
+import ChatHistoryList from './ChatHistoryList.js';
 import { useRef, useState } from 'react';
 
 import React from 'react';
-import ChatContent from './components/ChatContent';
+import ChatContent from './components/ChatContent.js';
+import DragAndDrop from './Upload_File.js';
 
 function App() {
-  const [currentChat, setCurrentChat] = useState(null);
-  console.log(currentChat)
+  const [uploaded, setUploaded] = useState(false);
+  const [historyMsg, setHistoryMsg] = useState([]);
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
@@ -23,7 +24,7 @@ function App() {
         </div>
       </div>
       <div style={{ flex: 4, backgroundColor: 'lightblue' }}>
-        {currentChat && <ChatContent />}
+        {!uploaded ? <DragAndDrop callback={setUploaded} /> : <ChatContent callback={setHistoryMsg} />}
       </div>
     </div>
   );
