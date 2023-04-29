@@ -79,5 +79,17 @@ def chat():
     except:
         return {'success': False, 'response': None}
     
+
+@app.route('/access_messages/', methods=['POST'])
+def access_messages():
+    try:
+        title = request.json['title']
+        messages = get_chats(session['name'], title)
+        return {'success': True, 'chat': messages}
+    except:
+        return {'success': False, 'chat': None}
+
+
+
 if __name__ == "__main__":
     app.run()

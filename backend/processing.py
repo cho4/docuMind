@@ -94,3 +94,20 @@ def get_text(pdf_reader):
             raw_text += text
 
     return raw_text
+
+
+def get_chats(username, title):
+    conn = sqlite3.connect("pagetalk.db")
+    cur = conn.cursor()
+
+    cur.execute("SELECT Message, Sender FROM Messages WHERE Username=? AND Title=? ORDER BY Timestamp", (username, title))
+
+    values = cur.fetchall()
+    conn.close()
+    
+    messages = []
+    
+    for msg in values:
+        messages.append({"message": msg[0], "sender": msg[1]})
+
+    return messages
