@@ -5,7 +5,7 @@ from langchain.llms import OpenAI
 from langchain.text_splitter import CharacterTextSplitter
 
 import pickle
-
+import os
 
 
 def get_reply(query):
@@ -25,7 +25,7 @@ def store_text(pdf_reader):
     chunks = chunk_text(text) # Separates the text into chunks 
 
     embeddings = OpenAIEmbeddings()
-    db = FAISS.from_documents(text, embeddings)
+    db = FAISS.from_texts(chunks, embeddings)
     chain = load_qa_chain(OpenAI(), chain_type="stuff")
 
     with open('db.pickle', 'wb') as f:
@@ -33,18 +33,21 @@ def store_text(pdf_reader):
 
     with open('chain.pickle', 'wb') as f:
         pickle.dump(chain, f)
+    
+    print('done storing text')
 
 
 
 def chunk_text(text):
     text_splitter = CharacterTextSplitter(
         separator = '\n',
-        chunk_size = 1000,
+        chunk_size = 2000,
         chunk_overlap = 200,
         length_function = len,
     )
 
     chunks = text_splitter.split_text(text)
+    print('done chunking text')
     return chunks
 
 
@@ -55,4 +58,5 @@ def get_text(pdf_reader):
         if text:
             raw_text += text
 
+    print('done fetching text from pdf')
     return raw_text
