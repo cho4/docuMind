@@ -19,6 +19,7 @@ const FileDropZone = ({ callback }) => {
     setIsDragging(false);
 
     const file = e.dataTransfer.files[0];
+    const name = e.dataTransfer.files[0].name;
 
     if (file.type !== 'application/pdf') {
       alert('Only PDF files are allowed');
@@ -29,11 +30,11 @@ const FileDropZone = ({ callback }) => {
         const formData = new FormData();
         formData.append('file', file);
 
-        const res = await axios.post('localhost:5000', formData);
+        const res = axios.post('http://localhost:5000/upload_pdf/', formData);
 
         res.then((response) => {
             if (response.data.success) {
-                callback();
+                callback(name);
             } else {
                 alert('File upload failed');
             }

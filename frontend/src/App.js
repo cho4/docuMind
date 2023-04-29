@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import ChatHistoryList from './ChatHistoryList.js';
 import { useRef, useState } from 'react';
@@ -11,6 +10,8 @@ function App() {
   const [uploaded, setUploaded] = useState(false);
   const [historyMsg, setHistoryMsg] = useState([]);
 
+  const [thisName, setThisName] = useState(0);
+
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
       <div style={{ flex: 1, backgroundColor: '#E6E6E6', display: 'flex', flexDirection: 'column' }}>
@@ -20,16 +21,14 @@ function App() {
           </h1>
         </div>
         <div style={{ flex: 3, backgroundColor: 'white', overflowY: 'scroll' }}>
-          <ChatHistoryList callback={(p1, s1, p2, s2) => {setUploaded(p1); setHistoryMsg(p2)}}/>
+          <ChatHistoryList 
+          callback={(p1, s1, p2, s2) => {setUploaded(p1); setHistoryMsg([...historyMsg, p2])}}
+          cbName={thisName}
+          />
         </div>
       </div>
-<<<<<<< HEAD
       <div style={{ flex: 4, backgroundColor: 'lightblue' }}>
-        {!uploaded ? <FileDropZone callback={setUploaded} /> : <ChatContent prop1={historyMsg} callback={setHistoryMsg} />}
-=======
-      <div style={{ flex: 4, backgroundColor: '#F0F0F0' }}>
-        {currentChat && <ChatContent />}
->>>>>>> af399cc566b20774892fa3a175652c3ee2cd6bf6
+        {!uploaded ? <FileDropZone callback={(name) => {setUploaded(true); setThisName(name)}} /> : <ChatContent msg={historyMsg} name={thisName} callback={setHistoryMsg} />}
       </div>
     </div>
   );

@@ -1,13 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EachChat from './components/EachChat';
 import './index.css';
 
 function ChatHistoryList(props) {
-
   const [chatList, setChatList] = useState([]);
+  const [thisIndex, setThisIndex] = useState(0);
+  const [name, setName] = useState(props.cbName);
+
+  useEffect(() => {
+    if (name != '') {
+      addName(chatList, thisIndex, name);
+      setName('');
+    }
+  }, [name])
+
+  const addName = (chatList, thisIndex, name) => {
+    chatList[thisIndex].name = name
+  }
 
   const addNewChat = () => {
-    setChatList([...chatList, <EachChat key={chatList.length + 1} callback={props.callback} />]);
+    setChatList([...chatList, <EachChat key={chatList.length + 1} callback={props.callback} cb2={() => setThisIndex(this.key)} name={"Blank chat"}/>]);
   };
 
   return (
