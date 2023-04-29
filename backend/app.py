@@ -19,7 +19,17 @@ def upload_pdf():
     except:
         return {'status': 'failure'}
 
-
+@app.route('/chat', methods=['POST'])
+def chat():
+    try:
+        data = request.json['message']
+        response = get_reply(data['message'])
+        
+        return {'status': 'success', 'response': response}
+     
+    except:
+        return {'status': 'failure'}
+    
 @app.route('/test', methods=['GET'])
 def test():
 
