@@ -29,7 +29,7 @@ const FileDropZone = ({ callback }) => {
         const formData = new FormData();
         formData.append('file', file);
 
-        const res = await axios.post('/', formData);
+        const res = await axios.post('localhost:5000', formData);
 
         res.then((response) => {
             if (response.data.success) {
