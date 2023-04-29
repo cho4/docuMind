@@ -21,9 +21,10 @@ const getStyles = (isSender) => {
     };
 
     const messageStyle = {
-      backgroundColor: isSender ? '#4c8bf5' : '#eaeaea',
+      backgroundColor: isSender ? '#5CC2C2' : "#E2E2E2",
       color: isSender ? 'white' : 'black',
       padding: '10px 15px',
+      fontFamily: 'Euclid Circular A, sans-serif',
       borderRadius: 20,
       borderTopRightRadius: isSender ? 5 : 20,
       borderTopLeftRadius: isSender ? 20 : 5,

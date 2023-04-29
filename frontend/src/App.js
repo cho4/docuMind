@@ -12,8 +12,8 @@ function App() {
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
-      <div style={{ flex: 1, backgroundColor: 'lightgray', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ flex: 1, backgroundColor: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div style={{ flex: 1, backgroundColor: '#E6E6E6', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ flex: 1, backgroundColor: "#E6E6E6", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <h1 style={{ textAlign: 'center' }}>
             <span style={{ color: 'lightblue', fontWeight: 'bold' }}>PDF</span>riend
           </h1>
@@ -22,7 +22,7 @@ function App() {
           <ChatHistoryList callback={setCurrentChat}/>
         </div>
       </div>
-      <div style={{ flex: 4, backgroundColor: 'lightblue' }}>
+      <div style={{ flex: 4, backgroundColor: '#F0F0F0' }}>
         {currentChat && <ChatContent />}
       </div>
     </div>
