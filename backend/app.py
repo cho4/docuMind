@@ -14,7 +14,6 @@ CORS(app)
 app.secret_key = os.urandom(24)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-app.config["SESSION"]
 app.config["SESSION_COOKIE_NAME"] = "pagetalk"
 
 # Validates the OpenAI API key
@@ -60,9 +59,11 @@ def login():
 def upload_pdf():
     try:
         file = request.files['file']
-        pdf_reader = PyPDF2.PdfReader(io.BytesIO(file))
-        
+        pdf_reader = PyPDF2.PdfReader(file)
+        # FIX HARDCODE
+        session['name'] = 'bob'
         store_text(pdf_reader, file.filename, session['name']) # passes PDF, file name which is part of request object, and username
+
         return {'success': True}
     except:
         return {'success': False}
@@ -78,7 +79,4 @@ def chat():
         return {'success': False, 'response': None}
     
 if __name__ == "__main__":
-    # app.run()
-    # pdf_reader = PyPDF2.PdfReader("223 textbook 2022-23.pdf")
-    # store_text(pdf_reader)
-    print(get_reply("Explain what happened in world war two"))
+    app.run()

@@ -23,13 +23,8 @@ function App() {
           <ChatHistoryList callback={(p1, s1, p2, s2) => {setUploaded(p1); setHistoryMsg(p2)}}/>
         </div>
       </div>
-<<<<<<< HEAD
       <div style={{ flex: 4, backgroundColor: 'lightblue' }}>
         {!uploaded ? <FileDropZone callback={setUploaded} /> : <ChatContent prop1={historyMsg} callback={setHistoryMsg} />}
-=======
-      <div style={{ flex: 4, backgroundColor: '#F0F0F0' }}>
-        {currentChat && <ChatContent />}
->>>>>>> af399cc566b20774892fa3a175652c3ee2cd6bf6
       </div>
     </div>
   );
