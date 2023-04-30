@@ -63,11 +63,8 @@ def upload_pdf():
     try:
         file = request.files['file']
         pdf_reader = PyPDF2.PdfReader(file)
-        # session['name'] = 'bob'
         SESSION[0] = 'bob'
-        # store_text(pdf_reader, file.filename, session['name']) # passes PDF, file name which is part of request object, and username
         store_text(pdf_reader, file.filename, SESSION[0]) # passes PDF, file name which is part of request object, and username
-
         return {'success': True}
     except:
         return {'success': False}

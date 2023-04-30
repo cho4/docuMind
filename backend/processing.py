@@ -12,7 +12,7 @@ import os
 def signup_user(username, password):
     conn = sqlite3.connect("pagetalk.db")
     cur = conn.cursor()
-    cur.execute('SELECT * FROM Users WHERE username=?', (username))
+    cur.execute('SELECT * FROM Authentication WHERE Username=?', (username))
     if cur.fetchone() is None:
         cur.execute('INSERT INTO Users VALUES (?, ?)', (username, password))
         conn.commit()
@@ -26,7 +26,7 @@ def signup_user(username, password):
 def validate_user(username, password):
     conn = sqlite3.connect("pagetalk.db")
     cur = conn.cursor()
-    cur.execute('SELECT * FROM Users WHERE username=? AND password=?', (username, password))
+    cur.execute('SELECT * FROM Authentication WHERE Username=? AND Password=?', (username, password))
     if cur.fetchone() is None:
         conn.close()
         return False
@@ -57,7 +57,7 @@ def store_text(pdf_reader, title, username):
     text = get_text(pdf_reader) # Retrieves the raw text from the pdf
     chunks = chunk_text(text) # Separates the text into chunks 
 
-    os.environ["OPENAI_API_KEY"] = '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' # TEMPORARY HARD CODED LINE
+    os.environ["OPENAI_API_KEY"] = '' # TEMPORARY HARD CODED LINE
 
     embeddings = OpenAIEmbeddings()
     db = FAISS.from_texts(chunks, embeddings)
