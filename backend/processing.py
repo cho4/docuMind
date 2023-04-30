@@ -59,8 +59,6 @@ def store_text(pdf_reader, title, username):
     text = get_text(pdf_reader) # Retrieves the raw text from the pdf
     chunks = chunk_text(text) # Separates the text into chunks 
 
-    os.environ["OPENAI_API_KEY"] = '' # TEMPORARY HARD CODED LINE
-
     embeddings = OpenAIEmbeddings()
     db = FAISS.from_texts(chunks, embeddings)
     chain = load_qa_chain(OpenAI(), chain_type="stuff")
