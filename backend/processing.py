@@ -12,9 +12,11 @@ import os
 def signup_user(username, password):
     conn = sqlite3.connect("pagetalk.db")
     cur = conn.cursor()
-    cur.execute('SELECT * FROM Authentication WHERE Username=?', (username))
-    if cur.fetchone() is None:
-        cur.execute('INSERT INTO Users VALUES (?, ?)', (username, password))
+    cur.execute('SELECT * FROM Authentication WHERE Username=?', (username,))
+    result = cur.fetchone()
+
+    if result is None:
+        cur.execute('INSERT INTO Authentication VALUES (?, ?)', (username, password))
         conn.commit()
         conn.close()
         return True

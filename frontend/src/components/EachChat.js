@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import DragAndDrop from '../Upload_File.js';
+import DragAndDrop from './Upload_File.js';
 import axios from 'axios';
 
 function EachChat(props) {
