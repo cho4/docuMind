@@ -38,10 +38,10 @@ def validate_user(username, password):
 def get_reply(query, conversation, username):
     conn = sqlite3.connect("pagetalk.db")
     cur = conn.cursor()
-    cur.execute('SELECT * FROM Chats WHERE username=? AND conversation=?', (username, conversation))
+    cur.execute('SELECT * FROM Chats WHERE Username=? AND Title=?', (username, conversation))
     results = cur.fetchone()
-    chain = pickle.loads(results[2])
-    db = pickle.loads(results[3])
+    chain = pickle.loads(results[3])
+    db = pickle.loads(results[2])
 
     docs = db.similarity_search(query)
     reply = chain.run(input_documents=docs, question=query)
@@ -57,7 +57,7 @@ def store_text(pdf_reader, title, username):
     text = get_text(pdf_reader) # Retrieves the raw text from the pdf
     chunks = chunk_text(text) # Separates the text into chunks 
 
-    os.environ["OPENAI_API_KEY"] = '' # TEMPORARY HARD CODED LINE
+    os.environ["OPENAI_API_KEY"] = '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' # TEMPORARY HARD CODED LINE
 
     embeddings = OpenAIEmbeddings()
     db = FAISS.from_texts(chunks, embeddings)

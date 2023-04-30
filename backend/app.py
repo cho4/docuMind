@@ -8,13 +8,14 @@ import sqlite3
 from datetime import datetime
 from flask_cors import CORS
 
+SESSION = [""]
 # Create the application instance and configures session
 app = Flask(__name__)
 CORS(app)
 app.secret_key = os.urandom(24)
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-app.config["SESSION_COOKIE_NAME"] = "pagetalk"
+# app.config["SESSION_PERMANENT"] = False
+# app.config["SESSION_TYPE"] = "redis"
+# app.config["SESSION_COOKIE_NAME"] = "pagetalk"
 
 # Validates the OpenAI API key
 @app.route('/key/', methods=['POST'])
@@ -36,7 +37,8 @@ def signup():
 
     signup_valid = signup_user(username, password)
     if signup_valid:
-        session['name'] = username
+        # session['name'] = username
+        SESSION[0] = username
         return {'success': True, 'username': username}
     else:
         return {'success': False}
@@ -49,7 +51,8 @@ def login():
 
     user_valid = validate_user(username, password)
     if user_valid:
-        session['name'] = username
+        # session['name'] = username
+        SESSION[0] = username
         return {'success': True, 'username': username}
     else:
         return {'success': False}
@@ -60,9 +63,10 @@ def upload_pdf():
     try:
         file = request.files['file']
         pdf_reader = PyPDF2.PdfReader(file)
-        # FIX HARDCODE
-        session['name'] = 'bob'
-        store_text(pdf_reader, file.filename, session['name']) # passes PDF, file name which is part of request object, and username
+        # session['name'] = 'bob'
+        SESSION[0] = 'bob'
+        # store_text(pdf_reader, file.filename, session['name']) # passes PDF, file name which is part of request object, and username
+        store_text(pdf_reader, file.filename, SESSION[0]) # passes PDF, file name which is part of request object, and username
 
         return {'success': True}
     except:
@@ -71,12 +75,15 @@ def upload_pdf():
 # Case where user prompts chatbot for answer
 @app.route('/chat/', methods=['POST'])
 def chat():
-    try:
+    try: 
         query = request.json['message']
         title = request.json['title']
-        response = get_reply(query, title, session['name'])
+        # response = get_reply(query, title, session['name'])
+        response = get_reply(query, title, SESSION[0])
+
         return {'success': True, 'response': response}
-    except:
+    except Exception as e:
+        print(e)
         return {'success': False, 'response': None}
     
 
@@ -84,7 +91,9 @@ def chat():
 def access_messages():
     try:
         title = request.json['title']
-        messages = get_chats(session['name'], title)
+        # messages = get_chats(session['name'], title)
+        messages = get_chats(SESSION[0], title)
+
         return {'success': True, 'chat': messages}
     except:
         return {'success': False, 'chat': None}
