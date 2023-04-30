@@ -7,7 +7,7 @@ const Message = ({ text, type }) => {
   return (
     <div style={styles.container}>
       <div style={styles.message}>
-        {text}
+        {text ? text : "Hello! How can I help you?"}
       </div>
     </div>
   );

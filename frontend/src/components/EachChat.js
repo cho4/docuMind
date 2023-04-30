@@ -28,7 +28,7 @@ function EachChat(props) {
     }
 
     return (
-      <div onClick={onChatClick} style={{ height: 100, backgroundColor: 'white', margin: 10, borderRadius: 5 }}>
+      <div onClick={onChatClick} style={{backgroundColor: '#C9C9C9', 'border-radius': '25px', 'border-width': 0, height: 51.09623336791992, width: 172, left: 86, top: 888, borderRadius: 10, display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'white', margin: '0 auto', marginTop: '10px', marginBottom: '10px', 'font-family': 'Euclid Circular A','font-size': '18px', 'font-weight': '500','line-height': '23px','letter-spacing': '0em', 'text-align': 'center'}}>
         New Chat
       </div>
     );
