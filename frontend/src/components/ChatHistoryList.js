@@ -19,7 +19,13 @@ function ChatHistoryList(props) {
   }
 
   const addNewChat = () => {
-    setChatList([...chatList, <EachChat key={chatList.length + 1} callback={props.callback} cb2={() => setThisIndex(this.key)} name={"Blank chat"}/>]);
+    setChatList([...chatList, 
+      <EachChat 
+        key={chatList.length + 1}
+        callback={props.callback}
+        cb2={() => setThisIndex(this.key)}
+        cb3={props.setBoot}
+        />]);
   };
 
   return (

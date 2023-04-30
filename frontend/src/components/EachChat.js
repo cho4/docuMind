@@ -23,7 +23,8 @@ function EachChat(props) {
       ).catch((e) => {console.error(e)});
     })
     const onChatClick = () => {
-        props.callback(uploaded, setUploaded, msg, setMsg)
+        props.callback(uploaded, setUploaded, msg, setMsg);
+        props.cb3(true);
     }
 
     return (

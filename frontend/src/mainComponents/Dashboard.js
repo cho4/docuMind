@@ -7,10 +7,10 @@ import ChatContent from '../components/ChatContent.js';
 import FileDropZone from '../components/Upload_File.js';
 
 function Dashboard() {
-  const [uploaded, setUploaded] = useState(false);
+  const [uploaded, setUploaded] = useState(true);
   const [historyMsg, setHistoryMsg] = useState([]);
-
   const [thisName, setThisName] = useState(0);
+  const [booted, setBooted] = useState(false);
 
   return (
     <div style={{ display: 'flex', height: '100vh' }}>
@@ -22,13 +22,18 @@ function Dashboard() {
         </div>
         <div style={{ flex: 3, backgroundColor: 'white', overflowY: 'scroll' }}>
           <ChatHistoryList 
-          callback={(p1, s1, p2, s2) => {setUploaded(p1); setHistoryMsg([...historyMsg, p2])}}
-          cbName={thisName}
+            callback={(p1, s1, p2, s2) => {setUploaded(p1); setHistoryMsg([...historyMsg, p2])}}
+            cbName={thisName}
+            setBoot={setBooted}
           />
         </div>
       </div>
       <div style={{ flex: 4, backgroundColor: 'lightblue' }}>
-        {!uploaded ? <FileDropZone callback={(name) => {setUploaded(true); setThisName(name)}} /> : <ChatContent msg={historyMsg} name={thisName} callback={setHistoryMsg} />}
+        {!uploaded 
+          ? <FileDropZone callback={(name) => {setUploaded(true); setThisName(name)}} /> 
+          : !booted
+            ? <div></div>
+            : <ChatContent msg={historyMsg} name={thisName} callback={setHistoryMsg} />}
       </div>
     </div>
   );
